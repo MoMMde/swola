@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name" translatable="false">Simple Wake-on-Lan</string>
+    <string name="edit_content_description" translatable="true">Edit network devices</string>
+</resources>

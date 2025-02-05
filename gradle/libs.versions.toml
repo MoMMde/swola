@@ -1,0 +1,31 @@
+[versions]
+jvm = "2.0.21"
+agp = "8.8.0"
+androidx-bom = "2025.01.01"
+androidx-compose-compiler = "1.5.15"
+
+# https://developer.android.com/jetpack/androidx#:~:text=Unlike%20the%20Support%20Library%2C%20androidx%20packages%20are%20separately%20maintained%20and%20updated.%20The%20androidx%20packages%20use%20strict%20Semantic%20Versioning%2C%20starting%20with%20version%201.0.0.%20You%20can%20update%20AndroidX%20libraries%20in%20your%20project%20independently.
+androidx-activity-ktx = "1.9.3"
+androidx-graphics = "1.0.2"
+
+[libraries]
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidx-bom" }
+androidx-compose-compiler = { group = "androidx.compose.compiler", name = "compiler", version.ref = "androidx-compose-compiler" }
+
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+#androidx-compose-material-icons = { group = "androidx.compose.material", name = "material-icons-core" }
+androidx-compose-material-icons = { group = "androidx.compose.material", name = "material-icons-extended" }
+
+androidx-core = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-compose-compiler" }
+androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "androidx-activity-ktx" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity-ktx" }
+
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-compose-ui-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "jvm" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "jvm" }
