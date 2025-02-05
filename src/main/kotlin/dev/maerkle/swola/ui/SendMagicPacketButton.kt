@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
+import androidx.compose.material.icons.outlined.PowerSettingsNew
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -35,6 +36,7 @@ fun SendMagicPacketButton(macAddress: String) {
             .clickable(onClick = {
                 Log.i("SendMagicPacketButton", "Send Magic Packet to $macAddress")
                 coroutineScope.launch {
+                    // TODO: Maybe add a little animation right here
                     sendMagicPacket(macAddress)
                 }
             }),
@@ -56,7 +58,7 @@ fun SendMagicPacketButton(macAddress: String) {
             }
         }
         Icon(
-            Icons.AutoMirrored.Filled.Send,
+            Icons.Outlined.PowerSettingsNew,
             contentDescription = "Send Magic Packet",
             tint = Color.White
         )

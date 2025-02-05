@@ -58,6 +58,7 @@ fun HomeScreen(
 
         if (createOverlay) {
             ModalBottomSheet(
+                containerColor = SwolaColors.DARK_BLUE_COLOR,
                 onDismissRequest = { createOverlay = false }, sheetState = createSheetState
             ) {
                 CreateOverlay { name, mac, broadcastAddress ->
@@ -108,6 +109,7 @@ fun HomeScreen(
                         NetworkDeviceBox(item.name, item.macAddress)
                         if (editOverlay) {
                             ModalBottomSheet(
+                                containerColor = SwolaColors.DARK_BLUE_COLOR,
                                 onDismissRequest = {
                                     editOverlay = false
                                     onEdit(item)
