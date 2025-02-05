@@ -7,4 +7,8 @@ object SwolaColors {
     val DARK_BLUE_COLOR = Color(0xFF001219)
 
     val BRIGHT_CREME_WHITE = Color(0xFFEDEDE9)
+
+    val BRIGHT_RED = Color(0xFFD6322F)
+
+    val BRIGHT_GREEN = Color(0xFF50943D)
 }

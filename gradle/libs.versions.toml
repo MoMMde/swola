@@ -8,6 +8,9 @@ androidx-compose-compiler = "1.5.15"
 androidx-activity-ktx = "1.9.3"
 androidx-graphics = "1.0.2"
 
+androidx-room = "2.6.1"
+ksp = "2.0.21-1.0.27"
+
 [libraries]
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidx-bom" }
 androidx-compose-compiler = { group = "androidx.compose.compiler", name = "compiler", version.ref = "androidx-compose-compiler" }
@@ -20,6 +23,10 @@ androidx-core = { group = "androidx.core", name = "core-ktx", version.ref = "and
 androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "androidx-activity-ktx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity-ktx" }
 
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "androidx-room" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "androidx-room" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "androidx-room" }
+
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-compose-ui-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
@@ -29,3 +36,5 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "jvm" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "jvm" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+
