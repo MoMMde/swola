@@ -38,9 +38,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import dev.maerkle.swola.network.BROADCAST_ADDRESS
+import dev.maerkle.swola.network.MAGIC_PACKET_UDP_PORT
 
 @Composable
-fun NetworkDeviceBox(deviceName: String, macAddress: String) {
+fun NetworkDeviceBox(deviceName: String, macAddress: String, broadcastAddress: String, port: Int) {
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
     val boxHeight = screenHeight / 8
@@ -79,7 +81,7 @@ fun NetworkDeviceBox(deviceName: String, macAddress: String) {
             }
 
             Spacer(modifier = Modifier.weight(1f))
-            SendMagicPacketButton(macAddress)
+            SendMagicPacketButton(macAddress, broadcastAddress, port)
         }
     }
 }
@@ -89,5 +91,5 @@ fun NetworkDeviceBox(deviceName: String, macAddress: String) {
 @PreviewFontScale
 @Preview("Unthemed Network Device Preview", showBackground = true)
 fun NetworkDevicePreview() {
-    NetworkDeviceBox("A sample Device", "aa:bb:cc:dd:ee:ff")
+    NetworkDeviceBox("A sample Device", "aa:bb:cc:dd:ee:ff", BROADCAST_ADDRESS, MAGIC_PACKET_UDP_PORT)
 }

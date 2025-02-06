@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -18,6 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.text.isDigitsOnly
+import dev.maerkle.swola.network.BROADCAST_ADDRESS
+import dev.maerkle.swola.network.MAGIC_PACKET_UDP_PORT
 
 @Composable
 fun Overlay(
@@ -27,6 +31,8 @@ fun Overlay(
     onMacAddressChange: (String) -> Unit,
     broadcastAddress: String,
     onBroadcastAddressChange: (String) -> Unit,
+    port: Int,
+    onPortChange: (String) -> Unit,
     content: @Composable () -> Unit
 ) {
     Box(
@@ -48,6 +54,12 @@ fun Overlay(
                 "Broadcast Address",
                 Modifier
             )
+            SwolaTextInputField(
+                port.toString(),
+                onPortChange,
+                "Port",
+                Modifier
+            )
             Spacer(Modifier.padding(top = 25.dp))
 
             content.invoke()
@@ -61,8 +73,9 @@ fun CreateOverlay(
 ) {
     var name by remember { mutableStateOf("A new Network device") }
     var mac by remember { mutableStateOf("aa:bb:cc:dd:ee:ff") }
-    var broadcastAddress by remember { mutableStateOf("192.168.0.255") }
-    Overlay(name, onNameChange = { name = it}, mac, onMacAddressChange = { mac = it}, broadcastAddress, onBroadcastAddressChange = { broadcastAddress = it }) {
+    var broadcastAddress by remember { mutableStateOf(BROADCAST_ADDRESS) }
+    var port by remember { mutableIntStateOf(MAGIC_PACKET_UDP_PORT) }
+    Overlay(name, onNameChange = { name = it}, mac, onMacAddressChange = { mac = it}, broadcastAddress, onBroadcastAddressChange = { broadcastAddress = it }, port, onPortChange = { port = it.toInt() }) {
         SwolaButton(label = "Create", onClick = { onCreate(name, mac, broadcastAddress) }, backgroundColor = SwolaColors.BRIGHT_GREEN, fontColor = Color.White)
     }
 }
@@ -75,9 +88,11 @@ fun EditOverlay(
     onMacAddressChange: (String) -> Unit,
     broadcastAddress: String,
     onBroadcastAddressChange: (String) -> Unit,
+    port: Int,
+    onPortChange: (String) -> Unit,
     onDelete: () -> Unit
 ) {
-    Overlay(name, onNameChange, macAddress, onMacAddressChange, broadcastAddress, onBroadcastAddressChange) {
+    Overlay(name, onNameChange, macAddress, onMacAddressChange, broadcastAddress, onBroadcastAddressChange, port, onPortChange) {
         // TODO: Add a BasicAlertDialog https://composables.com/material3/basicalertdialog
         SwolaButton(label = "Delete", onClick = onDelete, backgroundColor = SwolaColors.BRIGHT_RED, fontColor = Color.White)
     }
@@ -86,7 +101,7 @@ fun EditOverlay(
 @Composable
 @Preview
 fun PreviewEditOverlay() {
-    EditOverlay("moritz@home", {}, "aa:bb:cc:dd:ee:ff", {}, "192.168.0.255", {}, {})
+    EditOverlay("moritz@home", {}, "aa:bb:cc:dd:ee:ff", {}, "192.168.0.255", {}, 9, {}, {})
 }
 
 @Composable

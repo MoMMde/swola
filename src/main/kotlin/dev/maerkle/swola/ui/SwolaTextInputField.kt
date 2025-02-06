@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -26,13 +27,15 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.text.isDigitsOnly
 
 @Composable
 fun SwolaTextInputField(
     value: String,
     onValueChange: (String) -> Unit,
     label: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
 ) {
     var textFieldValue by remember { mutableStateOf(TextFieldValue(value)) }
 
@@ -46,8 +49,10 @@ fun SwolaTextInputField(
         BasicTextField(
             value = textFieldValue,
             onValueChange = {
-                textFieldValue = it
-                onValueChange(it.text)
+                if (keyboardOptions.keyboardType == KeyboardType.Number && it.text.isDigitsOnly()) {
+                    textFieldValue = it
+                    onValueChange(it.text)
+                }
             },
             textStyle = TextStyle(
                 fontFamily = FontFamily.SansSerif, // Arial is a sans-serif font
@@ -55,7 +60,7 @@ fun SwolaTextInputField(
                 fontSize = 16.sp,
                 color = Color.Black
             ),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            keyboardOptions = keyboardOptions,
             modifier = Modifier
                 .fillMaxWidth()
                 .background(

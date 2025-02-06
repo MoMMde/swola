@@ -1,8 +1,6 @@
 package dev.maerkle.swola.ui
 
-import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -34,7 +32,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import dev.maerkle.swola.repository.WakeOnLanNetworkDevice
-import dev.maerkle.swola.repository.WakeOnLanNetworkDeviceDao
 
 private const val LOG_TAG = "dev.maerkle.swola.ui.HomeScreen"
 
@@ -99,37 +96,54 @@ fun HomeScreen(
             ) {
 
                 items(devices) { item ->
-                    val editSheetState = rememberModalBottomSheetState()
-                    var editOverlay by remember { mutableStateOf(false) }
-
-                    Box(Modifier.clickable {
-                        editOverlay = true
-                    }) {
-                        // todo: add broadcast address & port
-                        NetworkDeviceBox(item.name, item.macAddress)
-                        if (editOverlay) {
-                            ModalBottomSheet(
-                                containerColor = SwolaColors.DARK_BLUE_COLOR,
-                                onDismissRequest = {
-                                    editOverlay = false
-                                    onEdit(item)
-                                },
-                                sheetState = editSheetState
-                            ) {
-                                EditOverlay(name = item.name, onNameChange = {
-                                    item.name = it
-                                }, macAddress = item.macAddress, onMacAddressChange = {
-                                    item.macAddress = it
-                                }, item.broadcastAddress, onBroadcastAddressChange = {
-                                    item.broadcastAddress = it
-                                }, onDelete = {
-                                    onDelete(item)
-                                    editOverlay = false
-                                })
-                            }
-                        }
-                    }
+                    WakeOnLanDeviceHomeScreen(item, onEdit, onDelete)
                 }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun WakeOnLanDeviceHomeScreen(
+    item: WakeOnLanNetworkDevice,
+    onEdit: (WakeOnLanNetworkDevice) -> Unit,
+    onDelete: (WakeOnLanNetworkDevice) -> Unit
+) {
+    val editSheetState = rememberModalBottomSheetState()
+    var editOverlay by remember { mutableStateOf(false) }
+
+    Box(Modifier.clickable {
+        editOverlay = true
+    }) {
+        NetworkDeviceBox(
+            item.name,
+            item.macAddress,
+            item.broadcastAddress,
+            item.port
+        )
+        if (editOverlay) {
+            ModalBottomSheet(
+                containerColor = SwolaColors.DARK_BLUE_COLOR,
+                onDismissRequest = {
+                    editOverlay = false
+                    onEdit(item)
+                },
+                sheetState = editSheetState
+            ) {
+                EditOverlay(name = item.name, onNameChange = {
+                    item.name = it
+                }, macAddress = item.macAddress, onMacAddressChange = {
+                    item.macAddress = it
+                }, item.broadcastAddress, onBroadcastAddressChange = {
+                    item.broadcastAddress = it
+                }, item.port, onPortChange = {
+                    item.port = it.toInt()
+                },
+                    onDelete = {
+                        onDelete(item)
+                        editOverlay = false
+                    })
             }
         }
     }

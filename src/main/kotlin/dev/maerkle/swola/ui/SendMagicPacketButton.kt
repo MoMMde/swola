@@ -21,12 +21,14 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import dev.maerkle.swola.network.BROADCAST_ADDRESS
+import dev.maerkle.swola.network.MAGIC_PACKET_UDP_PORT
 import dev.maerkle.swola.network.sendMagicPacket
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 @Composable
-fun SendMagicPacketButton(macAddress: String) {
+fun SendMagicPacketButton(macAddress: String, broadcastAddress: String, port: Int) {
     val coroutineScope = rememberCoroutineScope()
     Box(
         modifier = Modifier
@@ -37,7 +39,7 @@ fun SendMagicPacketButton(macAddress: String) {
                 Log.i("SendMagicPacketButton", "Send Magic Packet to $macAddress")
                 coroutineScope.launch {
                     // TODO: Maybe add a little animation right here
-                    sendMagicPacket(macAddress)
+                    sendMagicPacket(macAddress, broadcastAddress, port)
                 }
             }),
         contentAlignment = Alignment.Center
@@ -96,5 +98,5 @@ private fun DrawScope.drawNoise(
 @Preview
 @Composable
 fun SendMagicPacketButtonPreview() {
-    SendMagicPacketButton("MAC")
+    SendMagicPacketButton("MAC", BROADCAST_ADDRESS, MAGIC_PACKET_UDP_PORT)
 }
