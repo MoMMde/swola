@@ -119,11 +119,14 @@ fun NetworkDeviceBox(deviceName: String, macAddress: String, broadcastAddress: S
             SendMagicPacketButton(macAddress, broadcastAddress, port) { buttonPositionByCallback ->
                 buttonPosition = buttonPositionByCallback
                 scope.launch {
-                    isSendingMagicPacket = true
+                    if (animatedRadius.isRunning) {
+                        animatedRadius.stop()
+                        animatedRadius.animateTo(targetValue = 1f, tween(durationMillis = 0))
+                    }
                     animatedRadius.animateTo(
                         targetValue = 1000f,
                         animationSpec = tween(
-                            durationMillis = 1300,
+                            durationMillis = 600,
                             easing = LinearEasing
                         )
                     )
@@ -133,7 +136,6 @@ fun NetworkDeviceBox(deviceName: String, macAddress: String, broadcastAddress: S
                         targetValue = 1f,
                         animationSpec = tween(durationMillis = 0)
                     )
-                    isSendingMagicPacket = false
                 }
 
             }

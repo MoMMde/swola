@@ -54,9 +54,9 @@ fun SendMagicPacketButton(macAddress: String, broadcastAddress: String, port: In
             }
             .clickable(onClick = {
                 Log.i("SendMagicPacketButton", "Send Magic Packet to $macAddress")
+                onClick(offset)
                 coroutineScope.launch {
                     sendMagicPacket(macAddress, broadcastAddress, port)
-                    onClick(offset)
                 }
             }),
         contentAlignment = Alignment.Center
