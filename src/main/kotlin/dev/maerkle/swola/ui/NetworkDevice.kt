@@ -131,7 +131,7 @@ fun NetworkDeviceBox(deviceName: String, macAddress: String, broadcastAddress: S
                         )
                     )
 
-                    delay(1300)
+                    delay(1100)
                     animatedRadius.animateTo(
                         targetValue = 1f,
                         animationSpec = tween(durationMillis = 0)
