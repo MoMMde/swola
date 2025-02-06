@@ -11,4 +11,6 @@ object SwolaColors {
     val BRIGHT_RED = Color(0xFFD6322F)
 
     val BRIGHT_GREEN = Color(0xFF50943D)
+
+    val LIME_GREEN = Color(0xFF5FE382)
 }

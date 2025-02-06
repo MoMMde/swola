@@ -19,27 +19,44 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInParent
+import androidx.compose.ui.layout.positionInRoot
+import androidx.compose.ui.layout.positionInWindow
+import androidx.compose.ui.layout.positionOnScreen
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.plus
 import dev.maerkle.swola.network.BROADCAST_ADDRESS
 import dev.maerkle.swola.network.MAGIC_PACKET_UDP_PORT
 import dev.maerkle.swola.network.sendMagicPacket
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
+import kotlin.math.sqrt
 import kotlin.random.Random
 
 @Composable
-fun SendMagicPacketButton(macAddress: String, broadcastAddress: String, port: Int) {
+fun SendMagicPacketButton(macAddress: String, broadcastAddress: String, port: Int, onClick: (Offset) -> Unit) {
     val coroutineScope = rememberCoroutineScope()
+
+    var offset = Offset(0f, 0f)
+    val buttonSize = 60.dp
+    val offsetInPx = LocalDensity.current.run { buttonSize.toPx() }.roundToInt().toFloat() * 0.8f
+
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(16.dp)) // Clip the inner Box to the rounded shape
-            .size(60.dp, 60.dp)
+            .size(buttonSize, buttonSize)
             .background(Color.Transparent)
+            .onGloballyPositioned { layoutCoordinates ->
+                offset = layoutCoordinates.positionInParent().plus(Offset(offsetInPx, offsetInPx))
+            }
             .clickable(onClick = {
                 Log.i("SendMagicPacketButton", "Send Magic Packet to $macAddress")
                 coroutineScope.launch {
-                    // TODO: Maybe add a little animation right here
                     sendMagicPacket(macAddress, broadcastAddress, port)
+                    onClick(offset)
                 }
             }),
         contentAlignment = Alignment.Center
@@ -98,5 +115,5 @@ private fun DrawScope.drawNoise(
 @Preview
 @Composable
 fun SendMagicPacketButtonPreview() {
-    SendMagicPacketButton("MAC", BROADCAST_ADDRESS, MAGIC_PACKET_UDP_PORT)
+    SendMagicPacketButton("MAC", BROADCAST_ADDRESS, MAGIC_PACKET_UDP_PORT) { }
 }
