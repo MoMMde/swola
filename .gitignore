@@ -26,3 +26,5 @@ build
 local.properties
 
 release
+.kotlin
+.idea
