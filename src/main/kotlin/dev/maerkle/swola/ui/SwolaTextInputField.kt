@@ -49,10 +49,8 @@ fun SwolaTextInputField(
         BasicTextField(
             value = textFieldValue,
             onValueChange = {
-                if (keyboardOptions.keyboardType == KeyboardType.Number && it.text.isDigitsOnly()) {
-                    textFieldValue = it
-                    onValueChange(it.text)
-                }
+                textFieldValue = it
+                onValueChange(it.text)
             },
             textStyle = TextStyle(
                 fontFamily = FontFamily.SansSerif, // Arial is a sans-serif font

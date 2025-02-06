@@ -138,7 +138,7 @@ private fun WakeOnLanDeviceHomeScreen(
                 }, item.broadcastAddress, onBroadcastAddressChange = {
                     item.broadcastAddress = it
                 }, item.port, onPortChange = {
-                    item.port = it.toInt()
+                    item.port = it
                 },
                     onDelete = {
                         onDelete(item)
