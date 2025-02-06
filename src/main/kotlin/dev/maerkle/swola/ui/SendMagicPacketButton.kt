@@ -1,4 +1,5 @@
 import android.util.Log
+import android.view.HapticFeedbackConstants
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -6,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.outlined.PowerSettingsNew
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -19,26 +19,25 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
-import androidx.compose.ui.layout.positionInRoot
-import androidx.compose.ui.layout.positionInWindow
-import androidx.compose.ui.layout.positionOnScreen
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.plus
 import dev.maerkle.swola.network.BROADCAST_ADDRESS
 import dev.maerkle.swola.network.MAGIC_PACKET_UDP_PORT
 import dev.maerkle.swola.network.sendMagicPacket
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
-import kotlin.math.sqrt
 import kotlin.random.Random
 
 @Composable
 fun SendMagicPacketButton(macAddress: String, broadcastAddress: String, port: Int, onClick: (Offset) -> Unit) {
     val coroutineScope = rememberCoroutineScope()
+
+    val haptic = LocalHapticFeedback.current
 
     var offset = Offset(0f, 0f)
     val buttonSize = 60.dp
@@ -55,6 +54,7 @@ fun SendMagicPacketButton(macAddress: String, broadcastAddress: String, port: In
             .clickable(onClick = {
                 Log.i("SendMagicPacketButton", "Send Magic Packet to $macAddress")
                 onClick(offset)
+                haptic.performHapticFeedback(HapticFeedbackType(HapticFeedbackConstants.LONG_PRESS))
                 coroutineScope.launch {
                     sendMagicPacket(macAddress, broadcastAddress, port)
                 }
