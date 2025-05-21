@@ -11,6 +11,9 @@ androidx-graphics = "1.0.2"
 androidx-room = "2.6.1"
 ksp = "2.0.21-1.0.27"
 
+# https://github.com/Kotlin/kotlinx.coroutines
+coroutines = "1.10.2"
+
 [libraries]
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidx-bom" }
 androidx-compose-compiler = { group = "androidx.compose.compiler", name = "compiler", version.ref = "androidx-compose-compiler" }
@@ -30,6 +33,10 @@ androidx-room-compiler = { group = "androidx.room", name = "room-compiler", vers
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-compose-ui-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+
+kotlinx-coroutinesAndroid = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

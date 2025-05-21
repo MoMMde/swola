@@ -1,6 +1,7 @@
 package dev.maerkle.swola
 
 import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -31,6 +32,7 @@ class Swola : ComponentActivity() {
         setContent {
 
             var devices by remember { mutableStateOf(allDevices) }
+            val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
             HomeScreen(
                 devices,

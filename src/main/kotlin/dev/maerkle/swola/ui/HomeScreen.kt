@@ -1,5 +1,7 @@
 package dev.maerkle.swola.ui
 
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,6 +21,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
@@ -113,9 +117,17 @@ private fun WakeOnLanDeviceHomeScreen(
     val editSheetState = rememberModalBottomSheetState()
     var editOverlay by remember { mutableStateOf(false) }
 
+    val context = LocalContext.current
+    val connectivityManager = context.getSystemService(ConnectivityManager::class.java)
+
     Box(Modifier.clickable {
         editOverlay = true
     }) {
+        if (connectivityManager.activeNetwork == null) {
+            Text("You are not connected to any Network")
+            return
+        }
+
         NetworkDeviceBox(
             item.name,
             item.macAddress,
@@ -155,4 +167,14 @@ private fun WakeOnLanDeviceHomeScreen(
 @PreviewScreenSizes
 fun PreviewHomeScreen() {
     HomeScreen(emptyList(), {}, {}, {})
+}
+
+@Composable
+@Preview
+@PreviewScreenSizes
+fun PreviewWakeOnLanDeviceHomeScreen() {
+    WakeOnLanDeviceHomeScreen(WakeOnLanNetworkDevice(
+        name = "Test Device",
+        macAddress = "aa:bb:cc:dd:ee:ff"
+    ), {}, {})
 }

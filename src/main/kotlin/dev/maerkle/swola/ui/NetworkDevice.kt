@@ -51,10 +51,10 @@ fun NetworkDeviceBox(deviceName: String, macAddress: String, broadcastAddress: S
     val screenHeight = configuration.screenHeightDp.dp
     val boxHeight = screenHeight / 8
 
-    var isSendingMagicPacket by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     val animatedRadius = remember { Animatable(0f) }
     var buttonPosition by remember { mutableStateOf(Offset(0f, 0f)) }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
