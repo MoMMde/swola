@@ -43,7 +43,8 @@ android {
         applicationId = "dev.maerkle.swola"
         minSdk = 34
         compileSdk = minSdk
-        maxSdk = 35
+        maxSdk = 36
+        targetSdk = 36
     }
 
     compileOptions {

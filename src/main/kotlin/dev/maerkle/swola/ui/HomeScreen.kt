@@ -124,7 +124,8 @@ private fun WakeOnLanDeviceHomeScreen(
         editOverlay = true
     }) {
         if (connectivityManager.activeNetwork == null) {
-            Text("You are not connected to any Network")
+            Text("You are not connected to any Network",
+                modifier = Modifier.align(Alignment.Center))
             return
         }
 
