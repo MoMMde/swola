@@ -37,7 +37,7 @@ dependencies {
 android {
     namespace = "dev.maerkle.swola"
     testNamespace = "dev.maerkle.testSwola"
-    version = 1.0
+    version = 1.1
 
     defaultConfig {
         applicationId = "dev.maerkle.swola"
