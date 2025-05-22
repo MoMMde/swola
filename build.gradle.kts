@@ -21,6 +21,8 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.ui.graphics)
 
+    implementation(libs.androidx.appcompat)
+
     implementation(libs.kotlinx.coroutinesAndroid)
 
     implementation(libs.androidx.room.runtime)

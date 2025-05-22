@@ -2,6 +2,7 @@ package dev.maerkle.swola.ui
 
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.net.NetworkInfo
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -42,6 +43,7 @@ private const val LOG_TAG = "dev.maerkle.swola.ui.HomeScreen"
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
+    isConnectedToNetwork: Boolean,
     devices: List<WakeOnLanNetworkDevice>,
     onCreate: (WakeOnLanNetworkDevice) -> Unit,
     onDelete: (WakeOnLanNetworkDevice) -> Unit,
@@ -93,7 +95,24 @@ fun HomeScreen(
         }
 
         Spacer(modifier = Modifier.padding(top = (0.1f * 800).dp))
+
+
+        val context = LocalContext.current
+        val connectivityManager = context.getSystemService(ConnectivityManager::class.java)
+        val activeNetwork = connectivityManager.activeNetwork
+
+        val capabilities = connectivityManager
+            .getNetworkCapabilities(activeNetwork)
+
         Box(modifier = Modifier.align(Alignment.CenterHorizontally)) {
+
+            // When he has no Wifi AND no Ethernet
+            if (!isConnectedToNetwork) {
+                Text("You are not connected to any Network capable of Wifi or Ethernet",
+                    color = SwolaColors.BRIGHT_RED)
+                return
+            }
+
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(0.87f),
                 verticalArrangement = Arrangement.spacedBy(21.dp)
@@ -117,17 +136,9 @@ private fun WakeOnLanDeviceHomeScreen(
     val editSheetState = rememberModalBottomSheetState()
     var editOverlay by remember { mutableStateOf(false) }
 
-    val context = LocalContext.current
-    val connectivityManager = context.getSystemService(ConnectivityManager::class.java)
-
     Box(Modifier.clickable {
         editOverlay = true
     }) {
-        if (connectivityManager.activeNetwork == null) {
-            Text("You are not connected to any Network",
-                modifier = Modifier.align(Alignment.Center))
-            return
-        }
 
         NetworkDeviceBox(
             item.name,
@@ -167,7 +178,7 @@ private fun WakeOnLanDeviceHomeScreen(
 @Preview
 @PreviewScreenSizes
 fun PreviewHomeScreen() {
-    HomeScreen(emptyList(), {}, {}, {})
+    HomeScreen(false, emptyList(), {}, {}, {})
 }
 
 @Composable
